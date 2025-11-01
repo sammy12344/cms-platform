@@ -6,7 +6,7 @@ A monorepo CMS project with Next.js apps for **Client** and **Admin**.
 
 ## Setup
 
-Install dependencies:
+Install dependencies and apps:
 
 ```bash
 yarn install
