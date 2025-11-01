@@ -63,7 +63,7 @@ export function Sidebar() {
         </div>
       </Card>
       <Card className="p-4">
-        <h3 className="font-semibold text-sm mb-3">About DevBlog</h3>
+        <h3 className="font-semibold text-sm mb-3">About SecBlog</h3>
         <p className="text-sm text-muted-foreground leading-relaxed">
           A community of developers sharing knowledge, experiences, and insights about web development, programming, and
           technology.
