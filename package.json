@@ -1,0 +1,12 @@
+{
+  "name": "cms-gig",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:client": "yarn workspace client dev",
+    "dev:admin": "yarn workspace admin dev"
+  }
+}

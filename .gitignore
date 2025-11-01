@@ -1,0 +1,19 @@
+# Node
+node_modules/
+.yarn/
+.pnp.*
+dist/
+.next/
+out/
+
+# VSCode
+.vscode/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional
+.env.local
+.env.*.local
