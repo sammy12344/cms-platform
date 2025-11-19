@@ -1,23 +1,20 @@
 import { Header } from "@/components/header";
-import { Hero } from "@/components/hero";
-import { AlertsSection } from "@/components/alerts-section";
-import { NewsSection } from "@/components/news-section";
-import { AdvisoriesSection } from "@/components/advisories-section";
-import { StatsSection } from "@/components/stats-section";
+import { HeroCarousel } from "@/components/hero-carousel";
+import { NewsGrid } from "@/components/news-grid";
 import { Footer } from "@/components/footer";
+import { ScrollToTop } from "@/components/scroll-to-top";
+import { Providers } from "@/components/providers";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1">
-        <Hero />
-        <AlertsSection />
-        <StatsSection />
-        <NewsSection />
-        <AdvisoriesSection />
+    <Providers>
+      <main className="min-h-screen bg-gray-50">
+        <Header />
+        <HeroCarousel />
+        <NewsGrid />
+        <Footer />
+        <ScrollToTop />
       </main>
-      <Footer />
-    </div>
+    </Providers>
   );
 }

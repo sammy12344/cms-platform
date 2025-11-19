@@ -1,0 +1,194 @@
+erDiagram
+    %% User Management Service
+    USER {
+        uuid user_id PK
+        string username
+        string email
+        string password_hash
+        string role
+        datetime created_at
+        datetime updated_at
+        boolean is_active
+    }
+    
+    ROLE {
+        uuid role_id PK
+        string role_name
+        string description
+        datetime created_at
+    }
+    
+    PERMISSION {
+        uuid permission_id PK
+        string permission_name
+        string resource
+        string action
+        datetime created_at
+    }
+    
+    ROLE_PERMISSION {
+        uuid role_id FK
+        uuid permission_id FK
+        datetime assigned_at
+    }
+    
+    USER_ROLE {
+        uuid user_id FK
+        uuid role_id FK
+        datetime assigned_at
+    }
+    
+    %% Content Management Service
+    NEWS_ARTICLE {
+        uuid article_id PK
+        string title
+        text content
+        string slug
+        uuid author_id FK
+        string status
+        datetime published_at
+        datetime created_at
+        datetime updated_at
+        int view_count
+    }
+    
+    NEWS_CATEGORY {
+        uuid category_id PK
+        string category_name
+        string description
+        datetime created_at
+    }
+    
+    ARTICLE_CATEGORY {
+        uuid article_id FK
+        uuid category_id FK
+    }
+    
+    TAG {
+        uuid tag_id PK
+        string tag_name
+        datetime created_at
+    }
+    
+    ARTICLE_TAG {
+        uuid article_id FK
+        uuid tag_id FK
+    }
+    
+    %% Media Service
+    MEDIA {
+        uuid media_id PK
+        string file_name
+        string file_path
+        string file_type
+        int file_size
+        uuid uploaded_by FK
+        datetime uploaded_at
+        string alt_text
+    }
+    
+    ARTICLE_MEDIA {
+        uuid article_id FK
+        uuid media_id FK
+        int display_order
+    }
+    
+    %% Comment Service
+    COMMENT {
+        uuid comment_id PK
+        uuid article_id FK
+        uuid parent_comment_id FK
+        string author_name
+        text content
+        string ip_hash
+        datetime created_at
+        boolean is_approved
+        boolean is_flagged
+    }
+    
+    %% Incident Reporting Service
+    INCIDENT_REPORT {
+        uuid report_id PK
+        string title
+        text description
+        string incident_type
+        string severity
+        datetime incident_date
+        string reporter_email
+        string reporter_name
+        string status
+        string ip_hash
+        datetime created_at
+        datetime updated_at
+        uuid assigned_to FK
+    }
+    
+    INCIDENT_EVIDENCE {
+        uuid evidence_id PK
+        uuid report_id FK
+        uuid media_id FK
+        string description
+        datetime uploaded_at
+    }
+    
+    INCIDENT_STATUS_HISTORY {
+        uuid history_id PK
+        uuid report_id FK
+        string old_status
+        string new_status
+        uuid changed_by FK
+        text notes
+        datetime changed_at
+    }
+    
+    %% Analytics Service
+    PAGE_VIEW {
+        uuid view_id PK
+        uuid article_id FK
+        string ip_hash
+        string user_agent
+        string referrer
+        datetime viewed_at
+    }
+    
+    %% Audit Service
+    AUDIT_LOG {
+        uuid log_id PK
+        uuid user_id FK
+        string action
+        string resource_type
+        uuid resource_id
+        text details
+        string ip_address
+        datetime created_at
+    }
+    
+    %% Relationships
+    USER ||--o{ USER_ROLE : has
+    ROLE ||--o{ USER_ROLE : assigned_to
+    ROLE ||--o{ ROLE_PERMISSION : has
+    PERMISSION ||--o{ ROLE_PERMISSION : granted_to
+    
+    USER ||--o{ NEWS_ARTICLE : authors
+    USER ||--o{ MEDIA : uploads
+    USER ||--o{ INCIDENT_REPORT : handles
+    USER ||--o{ INCIDENT_STATUS_HISTORY : updates
+    USER ||--o{ AUDIT_LOG : generates
+    
+    NEWS_ARTICLE ||--o{ ARTICLE_CATEGORY : belongs_to
+    NEWS_CATEGORY ||--o{ ARTICLE_CATEGORY : contains
+    
+    NEWS_ARTICLE ||--o{ ARTICLE_TAG : tagged_with
+    TAG ||--o{ ARTICLE_TAG : used_in
+    
+    NEWS_ARTICLE ||--o{ ARTICLE_MEDIA : contains
+    MEDIA ||--o{ ARTICLE_MEDIA : used_in
+    
+    NEWS_ARTICLE ||--o{ COMMENT : receives
+    COMMENT ||--o{ COMMENT : replies_to
+    
+    NEWS_ARTICLE ||--o{ PAGE_VIEW : tracked_by
+    
+    INCIDENT_REPORT ||--o{ INCIDENT_EVIDENCE : has
+    MEDIA ||--o{ INCIDENT_EVIDENCE : attached_to
+    INCIDENT_REPORT ||--o{ INCIDENT_STATUS_HISTORY : tracks
